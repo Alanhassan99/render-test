@@ -1,6 +1,6 @@
 require('dotenv').config()
 const url = process.env.MONGODB_URI
-const Person = require('./models/person')
+const person = require('./models/person')
 const express = require('express')
 const app = express()
 app.use(express.static('dist'))
@@ -32,7 +32,7 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    Person.find({}).then(persons => response.json(persons))
+    person.find({}).then(persons => response.json(persons))
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -59,35 +59,12 @@ const generateId = () => {
 }
 
 app.post('/api/persons', (request, response) => {
-    const body = request.body
-
-
-    if (!body.name) {
-        return response.status(400).json({
-            error: 'name missing'
-        })
-    }
-
-    const existingPerson = phonebook.find(
-        person => person.name === body.name
-    )
-    if (existingPerson) {
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-    }
-    const person = {
+    const body = req.body
+    const person = new Person({
         name: body.name,
-        number: body.number,
-        id: generateId(),
-    }
-
-
-
-
-    phonebook = phonebook.concat(person)
-
-    response.json(person)
+        number: body.number
+    })
+    person.save().then(saved => res.json(saved))
 })
 
 const PORT = process.env.PORT
