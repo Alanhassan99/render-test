@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
-const Person = require('./models/person')
 mongoose.set('strictQuery', false)
+
+const phoneBookSchema = new mongoose.Schema({
+    name: String,
+    number: String
+})
+
+const Person = mongoose.model('Person', phoneBookSchema)
 
 const password = process.argv[2]
 const url = `mongodb+srv://alanhassan99_db_user:${password}@cluster0.glpkyhe.mongodb.net/phoneBookApp?appName=Cluster0`
