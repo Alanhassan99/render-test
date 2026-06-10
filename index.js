@@ -1,6 +1,5 @@
 require('dotenv').config()
-const url = process.env.MONGODB_URI
-const person = require('./models/person')
+const Person = require('./models/person')
 const express = require('express')
 const app = express()
 app.use(express.static('dist'))
@@ -32,7 +31,7 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    person.find({}).then(persons => response.json(persons))
+    Person.find({}).then(persons => response.json(persons))
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -59,14 +58,13 @@ const generateId = () => {
 }
 
 app.post('/api/persons', (request, response) => {
-    const body = req.body
+    const body = request.body
     const person = new Person({
         name: body.name,
         number: body.number
     })
-    person.save().then(saved => res.json(saved))
+    person.save().then(saved => response.json(saved))
 })
-
 const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

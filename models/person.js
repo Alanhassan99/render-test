@@ -1,4 +1,8 @@
 const mongoose = require('mongoose')
+const url = process.env.MONGODB_URI
+mongoose.connect(url)
+    .then(() => console.log('connected to MongoDB'))
+    .catch(err => console.log('error connecting to MongoDB:', err.message))
 
 
 const phoneBookSchema = new mongoose.Schema({
@@ -16,6 +20,5 @@ phoneBookSchema.set('toJSON', {
         delete returnedObject.__v
     }
 })
-const Person = mongoose.model('Person', phoneBookSchema)
 
 module.exports = mongoose.model('Person', phoneBookSchema)
