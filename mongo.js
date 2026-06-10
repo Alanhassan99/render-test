@@ -2,10 +2,11 @@ const mongoose = require('mongoose')
 const Person = require('./models/person')
 mongoose.set('strictQuery', false)
 
-const url = process.argv[2]
+const password = process.argv[2]
+const url = `mongodb+srv://alanhassan99_db_user:${password}@cluster0.glpkyhe.mongodb.net/phoneBookApp?appName=Cluster0`
 
 console.log('connecting to', url)
-mongoose.connect(process.argv[2])
+mongoose.connect(url)
     .then(() => {
         console.log('connected to MongoDB')
     })
