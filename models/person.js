@@ -13,8 +13,16 @@ mongoose.connect(url, { family: 4 })
     })
 
 const phoneBookSchema = new mongoose.Schema({
-    name: String,
-    number: String
+    name: {
+        type: String,
+        required: true,
+        minLength: 3
+    },
+    number: {
+        type: String,
+        required: true,
+        minLength: 10
+    }
 })
 
 
